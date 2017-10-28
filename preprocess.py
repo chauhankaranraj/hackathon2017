@@ -2,8 +2,8 @@ from scapy.all import *
 from datasketch import MinHash
 
 # read in raw pcaps
-packet1 = rdpcap("./test.pcap")
-packet2 = rdpcap("./test2.pcap")
+packet1 = rdpcap("./mal1.pcap")
+packet2 = rdpcap("./normal1.pcap")
 
 # instantiate object
 foo = MinHash()
@@ -13,7 +13,7 @@ bar = MinHash()
 for packet in packet1:
 	foo.update((str(packet).encode('utf8')))
 
-for packet in packet1:
+for packet in packet2:
 	bar.update((str(packet).encode('utf8')))
 
 print("similarity = ", foo.jaccard(bar))

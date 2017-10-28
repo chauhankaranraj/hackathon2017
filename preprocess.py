@@ -1,15 +1,19 @@
 from scapy.all import *
 from datasketch import MinHash
 
-
-packets = rdpcap("./test.pcap")
+# read in raw pcaps
+packet1 = rdpcap("./test.pcap")
+packet2 = rdpcap("./test2.pcap")
 
 # instantiate object
-testHash = MinHash()
+foo = MinHash()
+bar = MinHash()
 
 # convet to strings, encode in utf8, and update the hash
-for packet in packets:
-	print(str(packet))
-	testHash.update((str(packet).encode('utf8')))
+for packet in packet1:
+	foo.update((str(packet).encode('utf8')))
 
-print("here's what the hash looks like", testHash)
+for packet in packet1:
+	bar.update((str(packet).encode('utf8')))
+
+print("similarity = ", foo.jaccard(bar))

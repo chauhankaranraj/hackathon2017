@@ -1,9 +1,17 @@
 from sklearn.cluster import KMeans
+import pandas as pd
 import pickle
 
 filehandler = open("normal_hashes.obj",'rb')
-hashes = pickle.load(filehandler)
+normal_hashes_df = pickle.load(filehandler)
 filehandler.close()
+
+filehandler = open("malware_hashes.obj",'rb')
+malware_hashes_df = pickle.load(filehandler)
+filehandler.close()
+
+# concatenate
+hashes = pd.concat(normal_hashes_df, malware_hashes_df)
 
 # train test split
 X_train, X_test, y_train, y_test = train_test_split(hashes, labels, test_size=0.25)

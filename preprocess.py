@@ -1,20 +1,20 @@
 from datasketch import MinHash
 import os
-import pandas
+import pandas as pd
 import pickle
 from scapy.all import *
 
 #  TODO: CHANGE THE NORMAL AND MALWARE DIRECTORIES BEFORE YOU RUN THIS SCRIPT
 
 if __name__ == '__main__':
-	
+
 	# directories where the pcap files are saved
 	normal_pcap_dir = "/Users/karanraj/Documents/normal-traffic/"
 	malware_pcap_dir = "/Users/karanraj/Documents/regin-malware/"
 
 	# dataframes for storing hashes
-	normal_hashes_df = pandas.DataFrame()
-	malware_hashes_df = pandas.DataFrame()
+	normal_hashes_df = pd.DataFrame()
+	malware_hashes_df = pd.DataFrame()
 
 
 	# populate the normal hashes dataframe

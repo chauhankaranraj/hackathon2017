@@ -1,5 +1,6 @@
-from scapy.all import *
 from datasketch import MinHash
+import pandas
+from scapy.all import *
 from sklearn.metrics.pairwise import *
 
 # read in raw pcaps
@@ -40,4 +41,7 @@ print("cosine similarity =", cos_sim)
 #linear kernel
 lin_kernel = linear_kernel(foo, bar)
 print("linear kernel =", lin_kernel)
+
+# X for malware
+X = pandas.DataFrame([hash1, hash2, hash3, hash4])
 

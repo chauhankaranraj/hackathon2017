@@ -3,6 +3,7 @@ import pandas
 from scapy.all import *
 from sklearn.metrics.pairwise import *
 
+
 # read in raw pcaps
 normal1 = rdpcap("./normal1.pcap")
 normal2 = rdpcap("./normal2.pcap")
@@ -43,5 +44,6 @@ lin_kernel = linear_kernel(foo, bar)
 print("linear kernel =", lin_kernel)
 
 # X for malware
-X = pandas.DataFrame([hash1, hash2, hash3, hash4])
+hashes = pandas.DataFrame([hash1, hash2, hash3, hash4])
+labels = pandas.DataFrame([1, 1, 0, 0])
 

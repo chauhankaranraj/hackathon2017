@@ -1,5 +1,6 @@
 from scapy.all import *
 from datasketch import MinHash
+from sklearn.metrics.pairwise import *
 
 # read in raw pcaps
 packet1 = rdpcap("./normal1.pcap")
@@ -17,3 +18,12 @@ for packet in packet2:
 	bar.update((str(packet).encode('utf8')))
 
 print("similarity = ", foo.jaccard(bar))
+
+# cosine similarity between packets
+cos_sim = cosine_similarity(foo, bar)
+print("cosine similarity =", cos_sim)
+
+#linear kernel
+lin_kernel = linear_kernel(foo, bar)
+print("linear kernel =", lin_kernel)
+

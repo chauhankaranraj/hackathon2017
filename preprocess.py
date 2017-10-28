@@ -5,8 +5,14 @@ import pickle
 from scapy.all import *
 
 #  TODO: CHANGE THE NORMAL AND MALWARE DIRECTORIES BEFORE YOU RUN THIS SCRIPT
-
-if __name__ == '__main__':
+def process_raw_data(normal_pcap_dir = "/home/natalia/Desktop/normal-traffic/", malware_pcap_dir = "/home/natalia/Desktop/regin-malware/")
+	"""
+	Takes in directories of raw data (pcap files) and returns np.array of hashes of ***ALL*** pcap files
+	
+	:param normal_pcap_dir: directory where normal pcap files are saved
+	:param malware_pcap_dir: directory where malware pcap files are saved
+	:return: np.array of hashes of normal and malware pcap files combined
+	"""
 
 	# directories where the pcap files are saved
 	normal_pcap_dir = "/home/natalia/Desktop/normal-traffic/"
@@ -52,10 +58,4 @@ if __name__ == '__main__':
 		malware_hashes.append(pcap_hash)
 	print("done")
 
-
-	# save processed data into a pickled object
-	with open("normal_hashes.obj","wb") as filehandler:
-		pickle.dump(np.array(normal_hashes), filehandler)
-
-	with open("malware_hashes.obj","wb") as filehandler:
-		pickle.dump(np.array(malware_hashes), filehandler)
+	return np.array(normal_hashes + malware_hashes)

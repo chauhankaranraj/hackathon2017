@@ -2,8 +2,8 @@ from scapy.all import *
 from datasketch import MinHash
 
 # read in raw pcaps
-packet1 = rdpcap("./mal1.pcap")
-packet2 = rdpcap("./normal1.pcap")
+packet1 = rdpcap("./normal1.pcap")
+packet2 = rdpcap("./normal2.pcap")
 
 # instantiate object
 foo = MinHash()

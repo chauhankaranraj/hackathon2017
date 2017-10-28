@@ -5,7 +5,7 @@ import pickle
 from scapy.all import *
 
 #  TODO: CHANGE THE NORMAL AND MALWARE DIRECTORIES BEFORE YOU RUN THIS SCRIPT
-def process_raw_data(normal_pcap_dir = "/home/natalia/Desktop/normal-traffic/", malware_pcap_dir = "/home/natalia/Desktop/regin-malware/")
+def process_raw_data(normal_pcap_dir = "/home/natalia/Desktop/normal-traffic/", malware_pcap_dir = "/home/natalia/Desktop/regin-malware/"):
 	"""
 	Takes in directories of raw data (pcap files) and returns np.array of hashes of ***ALL*** pcap files
 	
@@ -58,5 +58,4 @@ def process_raw_data(normal_pcap_dir = "/home/natalia/Desktop/normal-traffic/", 
 
 
 if __name__ == "__main__":
-
-	process_raw_data(normal_pcap_dir="/media/nvidia/windows/normal-traffic/", malware_pcap_dir="/media/nvidia/windows/regin-malware/")
+	test_array = process_raw_data(normal_pcap_dir="/media/nvidia/windows/normal-traffic/", malware_pcap_dir="/media/nvidia/windows/regin-malware/")

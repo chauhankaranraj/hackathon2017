@@ -1,7 +1,8 @@
+from preprocess import process_raw_data
 import tensorflow as tf
 from random import choice, shuffle
 import numpy as np
-import pickle
+
 
 if __name__ == '__main__':
 	main()
@@ -9,13 +10,10 @@ if __name__ == '__main__':
 
 def main():
 	num_clusters = 100
-
-	open('malware_hashes.obj', 'rb') as f_handle:
-		train_vecs = pickle.load(f_handle)
 	
-	open('normal_hashes.obj', 'rb') as f_handle:
-		np.concatenate((train_vecs, pickle.load(f_handle)), axis = 0)
-
+	train_vecs = process_raw_data(normal_pcap_dir="/media/nvidia/windows/normal-traffic/", malware_pcap_dir="/media/nvidia/windows/regin-malware/")
+	
+	print("starting training")
 	TFMeansCluster(train_vecs, num_clusters)
 	
 

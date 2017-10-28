@@ -1,6 +1,6 @@
 from datasketch import MinHash
+import numpy as np
 import os
-import pandas as pd
 import pickle
 from scapy.all import *
 
@@ -13,8 +13,8 @@ if __name__ == '__main__':
 	malware_pcap_dir = "/Users/karanraj/Documents/regin-malware/"
 
 	# dataframes for storing hashes
-	normal_hashes_df = pd.DataFrame()
-	malware_hashes_df = pd.DataFrame()
+	normal_hashes = []
+	malware_hashes = []
 
 
 	# populate the normal hashes dataframe
@@ -31,7 +31,7 @@ if __name__ == '__main__':
 			pcap_hash.update(str(packet).encode("utf8"))
 
 		# add to the dataframe of hashes
-		normal_hashes_df.append(pcap_hash)
+		normal_hashes.append(pcap_hash)
 
 
 	# populate the malware hashes dataframe
@@ -48,12 +48,12 @@ if __name__ == '__main__':
 			pcap_hash.update(str(packet).encode("utf8"))
 
 		# add to the dataframe of hashes
-		malware_hashes_df.append(pcap_hash)
+		malware_hashes.append(pcap_hash)
 
 
 	# save processed data into a pickled object
 	with open("normal_hashes.obj","wb") as filehandler
-		pickle.dump(normal_hashes_df, filehandler)
+		pickle.dump(np.array(normal_hashes), filehandler)
 
 	with open("malware_hashes.obj","wb") as filehandler
-		pickle.dump(malware_hashes_df, filehandler)
+		pickle.dump(np.array(malware_hashes), filehandler)

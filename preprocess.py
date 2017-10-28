@@ -9,14 +9,14 @@ from scapy.all import *
 if __name__ == '__main__':
 
 	# directories where the pcap files are saved
-	normal_pcap_dir = "/Users/karanraj/Documents/normal-traffic/"
-	malware_pcap_dir = "/Users/karanraj/Documents/regin-malware/"
+	normal_pcap_dir = "/home/natalia/Desktop/normal-traffic/"
+	malware_pcap_dir = "/home/natalia/Desktop/regin-malware/"
 
 	# dataframes for storing hashes
 	normal_hashes = []
 	malware_hashes = []
 
-
+	print("Hashing normal traffic...", end="")
 	# populate the normal hashes dataframe
 	for normal_pcap_name in os.listdir(normal_pcap_dir):
 
@@ -32,8 +32,9 @@ if __name__ == '__main__':
 
 		# add to the dataframe of hashes
 		normal_hashes.append(pcap_hash)
+	print("done")
 
-
+	print("Hashing malware traffic...", end="")
 	# populate the malware hashes dataframe
 	for malware_pcap_name in os.listdir(malware_pcap_dir):
 
@@ -49,6 +50,7 @@ if __name__ == '__main__':
 
 		# add to the dataframe of hashes
 		malware_hashes.append(pcap_hash)
+	print("done")
 
 
 	# save processed data into a pickled object

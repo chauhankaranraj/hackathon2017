@@ -52,8 +52,8 @@ if __name__ == '__main__':
 
 
 	# save processed data into a pickled object
-	with open("normal_hashes.obj","wb") as filehandler
+	with open("normal_hashes.obj","wb") as filehandler:
 		pickle.dump(np.array(normal_hashes), filehandler)
 
-	with open("malware_hashes.obj","wb") as filehandler
+	with open("malware_hashes.obj","wb") as filehandler:
 		pickle.dump(np.array(malware_hashes), filehandler)

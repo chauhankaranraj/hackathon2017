@@ -14,10 +14,6 @@ def process_raw_data(normal_pcap_dir = "/home/natalia/Desktop/normal-traffic/", 
 	:return: np.array of hashes of normal and malware pcap files combined
 	"""
 
-	# directories where the pcap files are saved
-	normal_pcap_dir = "/home/natalia/Desktop/normal-traffic/"
-	malware_pcap_dir = "/home/natalia/Desktop/regin-malware/"
-
 	# dataframes for storing hashes
 	normal_hashes = []
 	malware_hashes = []
@@ -59,3 +55,8 @@ def process_raw_data(normal_pcap_dir = "/home/natalia/Desktop/normal-traffic/", 
 	print("done")
 
 	return np.array(normal_hashes + malware_hashes)
+
+
+if __name__ == "__main__":
+
+	process_raw_data(normal_pcap_dir="/media/nvidia/windows/normal-traffic/", malware_pcap_dir="/media/nvidia/windows/regin-malware/")

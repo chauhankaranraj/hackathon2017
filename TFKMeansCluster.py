@@ -1,7 +1,26 @@
 import tensorflow as tf
 from random import choice, shuffle
-from numpy import array
- 
+import numpy as np
+import pickle
+
+if __name__ == '__main__':
+	main()
+
+
+def main():
+	num_clusters = 100
+
+	open('malware_hashes.obj', 'rb') as f_handle:
+		train_vecs = pickle.load(f_handle)
+	
+	open('normal_hashes.obj', 'rb') as f_handle:
+		np.concatenate((train_vecs, pickle.load(f_handle)), axis = 0)
+
+	TFMeansCluster(train_vecs, num_clusters)
+	
+
+	
+			 
  
 def TFKMeansCluster(vectors, noofclusters):
 	"""

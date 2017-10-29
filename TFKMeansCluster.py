@@ -1,3 +1,4 @@
+from categorize_clusters import categorize_clusters
 import tensorflow as tf
 from random import choice, shuffle
 import numpy as np
@@ -17,13 +18,18 @@ def main():
 	train_vecs = np.concatenate((normal_hashes, malware_hashes), axis=0)
 
 	print("starting training")
-	foo, bar = TFKMeansCluster(train_vecs, num_clusters)
+	cents, asmnts = TFKMeansCluster(train_vecs, num_clusters)
+	
+	prob_dict = categorize_clusters(asmnts)
 
 	with open('centroids.obj', 'wb') as fHandler:
-		pickle.dump(foo, fHandler)
+		pickle.dump(cents, fHandler)
 
 	with open('assignments.obj', 'wb') as fHandler:
-		pickle.dump(bar, fHandler)
+		pickle.dump(asmnts, fHandler)
+
+	with open('prob_dict.obj', 'wb') as fHandler:
+		pickle.dump(prob_dict, fHandler)
 			 
  
 def TFKMeansCluster(vectors, noofclusters):

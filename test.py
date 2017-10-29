@@ -2,7 +2,7 @@ from datasketch import MinHash
 import numpy as np
 import pickle as pkl
 from scapy.all import *
-from sklearn.metrics.pairwise import euclidean_distances
+#from sklearn.metrics.pairwise import euclidean_distances
 import tensorflow as tf
 
 
@@ -39,7 +39,10 @@ def getNearestCentroid(input_pcap_f_name, centroids_f_name='centroids.obj'):
 
 	# calculate euclidean distances of each centroid from input hash, update min_dist and nearest centroid accordingly
 	for centroid_num in range(len(np.shape(centroids)[0])):
-		dist = 	euclidean_distances(input_hash_vals, centroids[centroid_num, :])
+
+		dist = np.sqrt(np.sum(np.subtract(input_hash_vals, centroids[centroid_num, :])**2))
+
+		#dist = 	euclidean_distances(input_hash_vals, centroids[centroid_num, :])
 		if dist < min_dist:
 			min_dist = dist
 			nearest_centroid = centroid_num

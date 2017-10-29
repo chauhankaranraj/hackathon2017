@@ -2,6 +2,7 @@ from datasketch import MinHash
 import numpy as np
 import pickle as pkl
 from scapy.all import *
+from send_sms import sendSms
 #from sklearn.metrics.pairwise import euclidean_distances
 import tensorflow as tf
 
@@ -52,11 +53,15 @@ def getNearestCentroid(input_pcap_f_name, centroids_f_name='centroids.obj'):
 
 if __name__ == "__main__":
 	
+	# predict what cluster the pcap file belongs to
 	pred = getNearestCentroid("D:\\normal-traffic\\normal9.pcap")
-
 	
+	# get the malicious and normal probabilities
 	with open('prob_dict', 'rb') as fHandler:
-		print(prob_dict[pred])
+		probs = prob_dict[pred]
 
+	# send alert if probability of pcap file being malicious is more than that of normal
+	if probs['normal'] <= probs['mal']:
+		sendSms()
 
 

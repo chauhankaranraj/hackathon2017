@@ -91,7 +91,7 @@ def getNearestCentroid(input_pcap_f_name, centroids_f_name='centroids.obj'):
 
 if __name__ == "__main__":
 	
-	pred = getNearestCentroid("/media/nvidia/windows/normal-traffic/normal9.pcap")
+	pred = getNearestCentroid("D:\\normal-traffic\\normal9.pcap")
 
 
 

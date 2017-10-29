@@ -20,6 +20,7 @@ def categorize_clusters(assignments):
             (clusters[assignments[i]])["normal"] += 1 
         else:
             number_of_pcaps = dict()
+            number_of_pcaps["mal"] = 0
             number_of_pcaps["normal"] = 1
             clusters[assignments[i]] = number_of_pcaps
 
@@ -33,6 +34,7 @@ def categorize_clusters(assignments):
         else:
             number_of_pcaps = dict()
             number_of_pcaps["mal"] = 1
+            number_of_pcaps["normal"] = 0
             clusters[assignments[i]] = number_of_pcaps
 
     # find probability 

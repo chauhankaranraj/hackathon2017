@@ -50,12 +50,19 @@ def getNearestCentroid(input_pcap_f_name, centroids_f_name='centroids.obj'):
 
 
 if __name__ == "__main__":
-	
+	# Live capture packet to check for malware
+	print("Live capturing packets...")
+	packets = sniff(count=5)
+	wrpcap('sniffsniff.pcap', packets)
+
 	# predict what cluster the pcap file belongs to
 	#pred = getNearestCentroid("D:\\regin-malware\\2a948612-f69c-4dda-92bb-4786704782e2.pcap")
-	pred = getNearestCentroid("D:\\normal_data\\normal1.pcap")
+	#pred = getNearestCentroid("D:\\normal_data\\normal1.pcap")
 
-	print(pred)
+	print("Predicting security of packets...")
+	pred = getNearestCentroid("./sniffsniff.pcap")
+
+	print("Predicted cluster is ", pred)
 	
 	# get the malicious and normal probabilities
 	with open('prob_dict.obj', 'rb') as fHandler:
@@ -66,3 +73,5 @@ if __name__ == "__main__":
 	if prob['normal'] <= prob['mal']:
 		print("Malware found!")
 		sendSms()
+	else:
+		print("Packets are predicted to be normal traffic.")

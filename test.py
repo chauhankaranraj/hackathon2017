@@ -2,7 +2,6 @@ from datasketch import MinHash
 import numpy as np
 import pickle as pkl
 from scapy.all import *
-#from sklearn.metrics.pairwise import euclidean_distances
 import tensorflow as tf
 
 
@@ -17,7 +16,7 @@ def getNearestCentroid(input_pcap_f_name, centroids_f_name='centroids.obj'):
 	"""
 	# load the calculated centroids from k means
 	with open(centroids_f_name, 'rb') as fHandler:
-		centroids = pkl.load(fHandler)
+		centroids = np.array(pkl.load(fHandler))
 
 	# parse pcap into an object
 	pcap_obj = rdpcap(input_pcap_f_name)
@@ -38,11 +37,10 @@ def getNearestCentroid(input_pcap_f_name, centroids_f_name='centroids.obj'):
 	min_dist = float('inf')
 
 	# calculate euclidean distances of each centroid from input hash, update min_dist and nearest centroid accordingly
-	for centroid_num in range(len(np.shape(centroids)[0])):
+	for centroid_num in range(np.shape(centroids)[0]):
 
 		dist = np.sqrt(np.sum(np.subtract(input_hash_vals, centroids[centroid_num, :])**2))
 
-		#dist = 	euclidean_distances(input_hash_vals, centroids[centroid_num, :])
 		if dist < min_dist:
 			min_dist = dist
 			nearest_centroid = centroid_num
@@ -54,9 +52,10 @@ if __name__ == "__main__":
 	
 	pred = getNearestCentroid("D:\\normal-traffic\\normal9.pcap")
 
+	print(pred)
 	
-	with open('prob_dict', 'rb') as fHandler:
-		print(prob_dict[pred])
+	# with open('prob_dict', 'rb') as fHandler:
+	# 	print(prob_dict[pred])
 
 
 

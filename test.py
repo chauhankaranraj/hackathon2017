@@ -52,14 +52,17 @@ def getNearestCentroid(input_pcap_f_name, centroids_f_name='centroids.obj'):
 if __name__ == "__main__":
 	
 	# predict what cluster the pcap file belongs to
-	pred = getNearestCentroid("D:\\normal-traffic\\normal9.pcap")
+	#pred = getNearestCentroid("D:\\regin-malware\\2a948612-f69c-4dda-92bb-4786704782e2.pcap")
+	pred = getNearestCentroid("D:\\normal_data\\normal1.pcap")
+
+	print(pred)
 	
 	# get the malicious and normal probabilities
-	with open('prob_dict', 'rb') as fHandler:
-		probs = prob_dict[pred]
+	with open('prob_dict.obj', 'rb') as fHandler:
+		probs = pkl.load(fHandler)
+		prob = probs[pred]
 
 	# send alert if probability of pcap file being malicious is more than that of normal
-	if probs['normal'] <= probs['mal']:
+	if prob['normal'] <= prob['mal']:
+		print("Malware found!")
 		sendSms()
-
-

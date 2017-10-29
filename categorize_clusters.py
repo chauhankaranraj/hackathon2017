@@ -11,9 +11,8 @@ def main():
 
 def categorize_clusters(assignments):
     number_of_normal_packets = 9
-    number_of_mal_packets = len(assignments) - number_of_normal_packets
-
     clusters = dict()
+
     # find number of normal packets per cluster
     for i in range(0,number_of_normal_packets):
         if assignments[i] in clusters.keys():
@@ -41,11 +40,17 @@ def categorize_clusters(assignments):
     # (divide number of packets per cluster by total number of type packets)
     for cluster in clusters:
         for category in clusters[cluster]: 
+            # get number of mal packets in cluster
             if category == "mal":
                 num_mal_packets = (clusters[cluster])[category]
+            # get number of normal packets in cluster
             if category == "normal":
                 num_normal_packets = (clusters[cluster])[category]
+
+        # calculate total packets in cluster
         total_packets_in_cluster = num_mal_packets + num_normal_packets
+
+        # find probability of mal and normal packets in cluster
         (clusters[cluster])["mal"] = num_mal_packets/total_packets_in_cluster
         (clusters[cluster])["normal"] = num_normal_packets/total_packets_in_cluster
 

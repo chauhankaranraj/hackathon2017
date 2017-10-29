@@ -50,28 +50,34 @@ def getNearestCentroid(input_pcap_f_name, centroids_f_name='centroids.obj'):
 
 
 if __name__ == "__main__":
+	# load probability dict
+	with open('prob_dict.obj', 'rb') as fHandler:
+			probs = pkl.load(fHandler)
+
 	# Live capture packet to check for malware
 	print("Live capturing packets...")
-	packets = sniff(count=5)
-	wrpcap('sniffsniff.pcap', packets)
+	while True:
+		packets = sniff(count=5)
+		wrpcap('sniffsniff.pcap', packets)
 
-	# predict what cluster the pcap file belongs to
-	#pred = getNearestCentroid("D:\\regin-malware\\2a948612-f69c-4dda-92bb-4786704782e2.pcap")
-	#pred = getNearestCentroid("D:\\normal_data\\normal1.pcap")
+		# predict what cluster the pcap file belongs to
+		pred = getNearestCentroid("D:\\regin-malware\\00badda4-2f68-4cfb-9d1a-49bcc14c6d2b.pcap")
+		#pred = getNearestCentroid("D:\\normal_data\\normal1.pcap")
 
-	print("Predicting security of packets...")
-	pred = getNearestCentroid("./sniffsniff.pcap")
+		print("Predicting security of packets...")
+		pred = getNearestCentroid("./sniffsniff.pcap")
 
-	print("Predicted cluster is ", pred)
-	
-	# get the malicious and normal probabilities
-	with open('prob_dict.obj', 'rb') as fHandler:
-		probs = pkl.load(fHandler)
+		print("Predicted cluster is ", pred)
+		
+		# get the malicious and normal probabilities
 		prob = probs[pred]
 
-	# send alert if probability of pcap file being malicious is more than that of normal
-	if prob['normal'] <= prob['mal']:
-		print("Malware found!")
-		sendSms()
-	else:
-		print("Packets are predicted to be normal traffic.")
+		# send alert if probability of pcap file being malicious is more than that of normal
+		print("Probability that the packet is normal traffic is ", prob['normal'])
+		print("Probability that the packet is malicious traffic is ", prob['mal'])
+
+		if prob['normal'] <= prob['mal']:
+			print("Malware found!")
+			sendSms()
+		else:
+			print("Packets are predicted to be normal traffic.")

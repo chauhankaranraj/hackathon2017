@@ -16,7 +16,7 @@ def getNearestCentroid(input_pcap_f_name, centroids_f_name='centroids.obj'):
 	"""
 	# load the calculated centroids from k means
 	with open(centroids_f_name, 'rb') as fHandler:
-		centroids = pkl.load(fHandler)
+		cent = pkl.load(fHandler)
 
 	# parse pcap into an object
 	pcap_obj = rdpcap(input_pcap_f_name)
@@ -48,12 +48,19 @@ def getNearestCentroid(input_pcap_f_name, centroids_f_name='centroids.obj'):
 		euclid_dist = tf.sqrt(tf.reduce_sum(tf.pow(tf.subtract(
 			v1, v2), 2)))
 
-		input_hash_vals = tf.constant(input_hash_vals, shape=[1, 128])
+		input_hash_vals = tf.constant(input_hash_vals, shape=(1, 128))
 
-		centroid_dims = np.shape(centroids)
-		centroids = tf.constant(centroids, shape=[centroid_dims[0], centroid_dims[1]])
+		##initialized to one of the vectors from the available data points
+		centroids = [tf.Variable((cent[i])) for i in range(np.shape(cent)[0])]
 
-		print(input_hash_vals)
+		print("\n\n\n\ninitialized centroids\n\n\n\n\n\n")
+
+		##These nodes will assign the centroid Variables the appropriate
+		##values
+		centroid_value = tf.placeholder("float64", [dim])
+		cent_assigns = []
+		for centroid in centroids:
+			cent_assigns.append(tf.assign(centroid, centroid_value))
 
 		print("\n\n\n\n\ncreated constants\n\n\n\n\n\n")
 

@@ -1,18 +1,29 @@
-from preprocess import process_raw_data
 import tensorflow as tf
 from random import choice, shuffle
 import numpy as np
-
+import pickle
 
 
 def main():
-	num_clusters = 100
+	num_clusters = 3
 	
-	train_vecs = process_raw_data(normal_pcap_dir="/media/nvidia/windows/normal-traffic/", malware_pcap_dir="/media/nvidia/windows/regin-malware/")
+	with open('normal_hashes.obj', 'rb') as fHandler:
+		normal_hashes = pickle.load(fHandler)
+	
 
-	
+	with open('malware_hashes.obj', 'rb') as fHandler:
+		malware_hashes = pickle.load(fHandler)
+
+	train_vecs = np.concatenate((normal_hashes, malware_hashes), axis=0)
+
 	print("starting training")
-	foo, bar = TFMeansCluster(train_vecs, num_clusters)
+	foo, bar = TFKMeansCluster(train_vecs, num_clusters)
+
+	with open('centroids.obj', 'wb') as fHandler:
+		pickle.dump(foo, fHandler)
+
+	with open('assignments.obj', 'wb') as fHandler:
+		pickle.dump(bar, fHandler)
 			 
  
 def TFKMeansCluster(vectors, noofclusters):
@@ -82,7 +93,7 @@ def TFKMeansCluster(vectors, noofclusters):
 		#Placeholders for input
 		v1 = tf.placeholder("float", [dim])
 		v2 = tf.placeholder("float", [dim])
-		euclid_dist = tf.sqrt(tf.reduce_sum(tf.pow(tf.sub(
+		euclid_dist = tf.sqrt(tf.reduce_sum(tf.pow(tf.subtract(
 			v1, v2), 2)))
  
 		##This node will figure out which cluster to assign a vector to,
@@ -97,7 +108,7 @@ def TFKMeansCluster(vectors, noofclusters):
 		##to the graph. The Variable-initializer should be defined after
 		##all the Variables have been constructed, so that each of them
 		##will be included in the initialization.
-		init_op = tf.initialize_all_variables()
+		init_op = tf.global_variables_initializer()
  
 		#Initialize all variables
 		sess.run(init_op)
@@ -109,7 +120,7 @@ def TFKMeansCluster(vectors, noofclusters):
 		#iterations, instead of using a Stopping Criterion.
 		noofiterations = 100
 		for iteration_n in range(noofiterations):
- 
+			print("step ", iteration_n)
 			##EXPECTATION STEP
 			##Based on the centroid locations till last iteration, compute
 			##the _expected_ centroid assignments.
@@ -141,7 +152,7 @@ def TFKMeansCluster(vectors, noofclusters):
 								  if sess.run(assignments[i]) == cluster_n]
 				#Compute new centroid location
 				new_location = sess.run(mean_op, feed_dict={
-					mean_input: array(assigned_vects)})
+					mean_input: np.array(assigned_vects)})
 				#Assign value to appropriate variable
 				sess.run(cent_assigns[cluster_n], feed_dict={
 					centroid_value: new_location})

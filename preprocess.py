@@ -5,59 +5,45 @@ import pickle
 from scapy.all import *
 
 #  TODO: CHANGE THE NORMAL AND MALWARE DIRECTORIES BEFORE YOU RUN THIS SCRIPT
-<<<<<<< 05da70396acc783f24f83212584ae80d70f61829
-def process_raw_data(normal_pcap_dir = "/home/natalia/Desktop/normal-traffic/", malware_pcap_dir = "/home/natalia/Desktop/regin-malware/"):
-	"""
-	Takes in directories of raw data (pcap files) and returns np.array of hashes of ***ALL*** pcap files
-	
-	:param normal_pcap_dir: directory where normal pcap files are saved
-	:param malware_pcap_dir: directory where malware pcap files are saved
-	:return: np.array of hashes of normal and malware pcap files combined
-	"""
-=======
 
 if __name__ == '__main__':
 
 	# directories where the pcap files are saved
 	normal_pcap_dir = "/media/nvidia/windows/normal-traffic/"
 	malware_pcap_dir = "/media/nvidia/windows/regin-malware/"
->>>>>>> updated dirs. added print statements
 
 	# dataframes for storing hashes
-	normal_hashes = []
-	malware_hashes = []
+	normal_f_names = os.listdir(normal_pcap_dir)	
+	malware_f_names = os.listdir(malware_pcap_dir)
+	
+	normal_hashes = np.zeros((len(normal_f_names), 128))
+	malware_hashes = np.zeros((len(malware_f_names), 128))
 
 	print("Hashing normal traffic...", end="")
 	# populate the normal hashes dataframe
-	i = 0
-	for normal_pcap_name in os.listdir(normal_pcap_dir):
-		i += 1
-		print("running loop ", i)
+	for normal_pcap_name_idx in range(len(normal_f_names)):
 
 		# parse pcap into an object
-		pcap_obj = rdpcap(normal_pcap_dir + normal_pcap_name)
+		pcap_obj = rdpcap(normal_pcap_dir + normal_f_names[normal_pcap_name_idx])
 
 		# hash for current pcap file
 		pcap_hash = MinHash()
 
-		j = 0
 		# create the hash object
 		for packet in pcap_obj:
-			j += 1
-			print("running packet", j)
 			pcap_hash.update(str(packet).encode("utf8"))
 		
 
 		# add to the dataframe of hashes
-		normal_hashes.append(pcap_hash)
+		normal_hashes[normal_pcap_name_idx, :] = pcap_hash.hashvalues
 	print("done")
 
 	print("Hashing malware traffic...", end="")
 	# populate the malware hashes dataframe
-	for malware_pcap_name in os.listdir(malware_pcap_dir):
+	for malware_pcap_name_idx in range(len(malware_f_names)):
 
 		# parse pcap into an object
-		pcap_obj = rdpcap(malware_pcap_dir + malware_pcap_name)
+		pcap_obj = rdpcap(malware_pcap_dir + malware_f_names[malware_pcap_name_idx])
 
 		# hash for current pcap file
 		pcap_hash = MinHash()
@@ -67,7 +53,7 @@ if __name__ == '__main__':
 			pcap_hash.update(str(packet).encode("utf8"))
 
 		# add to the dataframe of hashes
-		malware_hashes.append(pcap_hash)
+		malware_hashes[malware_pcap_name_idx, :] = pcap_hash.hashvalues
 	print("done")
 
 	return np.array(normal_hashes + malware_hashes)

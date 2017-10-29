@@ -93,5 +93,9 @@ if __name__ == "__main__":
 	
 	pred = getNearestCentroid("D:\\normal-traffic\\normal9.pcap")
 
+	
+	with open('prob_dict', 'rb') as fHandler:
+		print(prob_dict[pred])
+
 
 

@@ -46,7 +46,7 @@ def categorize_clusters(assignments):
             if category == "normal":
                 (clusters[cluster])[category] = (clusters[cluster])[category]/number_of_normal_packets
 
-    print(clusters)
+    return clusters
     
 if __name__ == '__main__':
     main()

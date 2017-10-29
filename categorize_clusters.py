@@ -40,11 +40,14 @@ def categorize_clusters(assignments):
     # find probability 
     # (divide number of packets per cluster by total number of type packets)
     for cluster in clusters:
-        for category in clusters[cluster]:
+        for category in clusters[cluster]: 
             if category == "mal":
-                (clusters[cluster])[category] = (clusters[cluster])[category]/number_of_mal_packets
+                num_mal_packets = (clusters[cluster])[category]
             if category == "normal":
-                (clusters[cluster])[category] = (clusters[cluster])[category]/number_of_normal_packets
+                num_normal_packets = (clusters[cluster])[category]
+        total_packets_in_cluster = num_mal_packets + num_normal_packets
+        (clusters[cluster])["mal"] = num_mal_packets/total_packets_in_cluster
+        (clusters[cluster])["normal"] = num_normal_packets/total_packets_in_cluster
 
     return clusters
     

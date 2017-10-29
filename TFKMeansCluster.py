@@ -4,20 +4,15 @@ from random import choice, shuffle
 import numpy as np
 
 
-if __name__ == '__main__':
-	main()
-
 
 def main():
 	num_clusters = 100
 	
 	train_vecs = process_raw_data(normal_pcap_dir="/media/nvidia/windows/normal-traffic/", malware_pcap_dir="/media/nvidia/windows/regin-malware/")
-	
-	print("starting training")
-	TFMeansCluster(train_vecs, num_clusters)
-	
 
 	
+	print("starting training")
+	foo, bar = TFMeansCluster(train_vecs, num_clusters)
 			 
  
 def TFKMeansCluster(vectors, noofclusters):
@@ -155,3 +150,9 @@ def TFKMeansCluster(vectors, noofclusters):
 		centroids = sess.run(centroids)
 		assignments = sess.run(assignments)
 		return centroids, assignments
+
+
+
+if __name__ == '__main__':
+	main()
+

@@ -1,2 +1,6 @@
 __pycache__/
 .idea/
+centroids.obj
+assignments.obj
+prob_dict.obj
+sniffsniff.pcap

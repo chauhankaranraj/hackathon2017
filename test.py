@@ -56,44 +56,28 @@ if __name__ == "__main__":
 
 	# Live capture packet to check for malware
 	print("Live capturing packets...")
+	while True:
+		packets = sniff(count=5)
+		wrpcap('sniffsniff.pcap', packets)
 
-	# LIVE CAPTURE
-	# while True:
-	# 	packets = sniff(count=5)
-	# 	wrpcap('sniffsniff.pcap', packets)
+		# predict what cluster the pcap file belongs to
+		pred = getNearestCentroid("D:\\regin-malware\\00badda4-2f68-4cfb-9d1a-49bcc14c6d2b.pcap")
+		#pred = getNearestCentroid("D:\\normal_data\\normal1.pcap")
 
-	# 	# predict cluster of captured packet
-	# 	print("Predicting security of packets...")
-	# 	pred = getNearestCentroid("./sniffsniff.pcap")
+		print("Predicting security of packets...")
+		pred = getNearestCentroid("./sniffsniff.pcap")
 
-	# 	print("Predicted cluster is ", pred)
+		print("Predicted cluster is ", pred)
 		
-	# 	# get the malicious and normal probabilities
-	# 	prob = probs[pred]
+		# get the malicious and normal probabilities
+		prob = probs[pred]
 
-	# 	# send alert if probability of pcap file being malicious is more than that of normal
-	# 	print("Probability that the packet is normal traffic is ", prob['normal'])
-	# 	print("Probability that the packet is malicious traffic is ", prob['mal'])
+		# send alert if probability of pcap file being malicious is more than that of normal
+		print("Probability that the packet is normal traffic is ", prob['normal'])
+		print("Probability that the packet is malicious traffic is ", prob['mal'])
 
-	# 	if prob['normal'] <= prob['mal']:
-	# 		print("Malware found!")
-	# 	# sendSms(prob['mal'])
-	# 	else:
-	# 		print("Packets are predicted to be normal traffic.")
-
-	# PREDICT MALWARE
-	pred = getNearestCentroid("C:\\Users\\raman\\Documents\\EC441\\malware\\00badda4-2f68-4cfb-9d1a-49bcc14c6d2b.pcap")
-	print("Predicted cluster is ", pred)
-		
-	# get the malicious and normal probabilities
-	prob = probs[pred]
-
-	# send alert if probability of pcap file being malicious is more than that of normal
-	print("Probability that the packet is normal traffic is ", prob['normal'])
-	print("Probability that the packet is malicious traffic is ", prob['mal'])
-
-	if prob['normal'] <= prob['mal']:
-		print("Malware found!")
-		sendSms(prob['mal'])
-	else:
-		print("Packets are predicted to be normal traffic.")
+		if prob['normal'] <= prob['mal']:
+			print("Malware found!")
+			sendSms()
+		else:
+			print("Packets are predicted to be normal traffic.")

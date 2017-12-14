@@ -1,21 +1,21 @@
 from scapy.all import *
 from scapy.utils import rdpcap
 
-pcap_obj = rdpcap("C:\\Users\\raman\\Documents\\EC441\\malware\\00badda4-2f68-4cfb-9d1a-49bcc14c6d2b.pcap")  # could be used like this rdpcap("filename",500) fetches first 500 pkts
+pcap_obj = rdpcap("/Volumes/windows/regin-malware/00badda4-2f68-4cfb-9d1a-49bcc14c6d2b.pcap")  # could be used like this rdpcap("filename",500) fetches first 500 pkts
 
 pkt_cnt = 0
 p_out = []
 
-#dst_ip = "10.192.196.122"
-#for p in pcap_obj:
-#	pkt_cnt += 1
+dst_ip = "10.192.196.122"
+for p in pcap_obj:
+	pkt_cnt += 1
+	new_pkt = p.payload
+	new_pkt[IP].dst = dst_ip
 
-#	new_pkt = p.payload
-#	new_pkt[IP].dst = dst_ip
+	sendp(p)
 
-#	sendp(p)
 
-# could be used like this rdpcap("filename",500) fetches first 500 pkts
+pcap_obj = rdpcap("/Volumes/windows/regin-malware/00badda4-2f68-4cfb-9d1a-49bcc14c6d2b.pcap")  # could be used like this rdpcap("filename",500) fetches first 500 pkts
 # pkt = pcap_obj[2]
 
 # # new_dst_mac = "9C:B6:D0:1C:A5:A9"
